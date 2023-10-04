@@ -1,37 +1,36 @@
 
 include <BOSL/shapes.scad>
 include <VexBase.scad>
-// https://customizer.makerbot.com/docs
+
 /* [Basic] */
-// Holes along the Y axis
-yHoles = 5; // [1:100]
-// Holes along the X axis
+// Number of holes along the Y axis
+yHoles = 8; // [1:100]
+// Number of holes along the X axis
 xHoles = 3; // [1:100]
 // How many holes high is the channel?
 channelHeight = 1;//[1:10]
-
 // If true, just a single channel wall, or an L bracket
 singleChannel = false; 
-
-// Base can have flat ribs or not.
-generateFlatRibs = true;
-// Make triangle ribs on the base
-generateTriangleRibs = true;
-
-
-/* [Advanced] */
-
-// How thick is the base?
+// Thickness of base (mm)
 baseThickness = 1.5;
-// Thickness of the sides of the c-channel
+// Side thickness of the c-channel (mm)
 sideThickness=2;
 
-//Thickness of triangle ribs
-triRibWidth=2;
-
+/* [Ribs]     */
+// Reinforcement ribs along the base?
+generateFlatRibs = true;
+// Rib on the end of the base?
 flatRibsOnEnd = false;
+// Flat rib height (mm)
 flatRibHeight = 2;
+// Flat rib width (mm)
 flatRibWidth = 2.5;
+
+/* [Gussets] */
+// Generate gussets along the channel wall?
+generateGussets = true;
+// Gusset thickness
+gussetWidth=2;
 
 
 /* [Hidden] */
@@ -60,13 +59,14 @@ module flatribs() {
     }   
 }
 
+// I didn't know these were called gussets when I wrote this.. :)
 module triRibs() {
     // 1/2 inch
     holeOffset = 12.7;
    
      //Walk along the y axis, makin triangle ribs!
     for(y=[0:yHoles]){
-        halfTriRibWidth = triRibWidth / 2;
+        halfTriRibWidth = gussetWidth / 2;
         yOffset = (holeRowSize) * y;
             if( (y % 2) != 0 && y != yHoles) {
                 translate([0, yOffset - halfTriRibWidth]) right_triangle([10, 1.5, 10]);
@@ -108,9 +108,6 @@ module sideHoles() {
         }      
 }
 
-
-
-
 difference() {
     base(xHoles, yHoles, baseThickness);
      baseDiamonds(xHoles, yHoles, baseThickness);   
@@ -128,7 +125,7 @@ if(generateFlatRibs) {
     flatribs(); 
 }
 
-if(generateTriangleRibs) {
+if(generateGussets) {
     triRibs();
 }
 

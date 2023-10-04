@@ -2,31 +2,35 @@
 include <BOSL/shapes.scad>
 include <VexBase.scad>
 
-//https://customizer.makerbot.com/docs
-// Holes on y axis
+/* [Basic] */
+// Number of holes along the Y axis
 yHoles = 5; // [1:100]
-
-// Holes along x axis
-xHoles = 2; // [1:100]
-// How thick is the base?
+// Number of holes along the X axis
+xHoles = 5; // [1:100]
+// Thickness of the base (mm)
 baseThickness = 1.5;
-//  Base can have flat ribs or not.
+
+/* [Ribs] */
+// Reinforcement ribs along the base?
 generateFlatRibs = true;
+// Rib height (mm)
+flatRibHeight = 1;
+// Rib width (mm)
+flatRibWidth = 2;
 // Generate ribs every X holes
 flatRibSpacing = 1;
-
+// Ribs on the end?
 flatRibsOnEnd = false;
-flatRibHeight = 1;
-flatRibWidth = 2;
+
+
+/* [Hidden] */
+// Resolution, probably dont mess with this
+$fn = 50;
 
 // 1/2 inch
 //holeRowSize = 12.7;
 baseX = holeRowSize * xHoles;
 baseY = holeRowSize * yHoles;
-
-/* [Hidden] */
-// Resolution, probably dont mess with this
-$fn = 50;
 
 
 module flatribsX() {
